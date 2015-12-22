@@ -369,7 +369,7 @@
             return UITableViewRowAnimationAutomatic;
         }
         else if (formRow.sectionDescriptor.sectionInsertMode == XLFormSectionInsertModeLastRow){
-            return YES;
+            return UITableViewRowAnimationRight;
         }
     }
     return UITableViewRowAnimationFade;
