@@ -365,12 +365,12 @@
 -(UITableViewRowAnimation)insertRowAnimationForRow:(XLFormRowDescriptor *)formRow
 {
     if (formRow.sectionDescriptor.sectionOptions & XLFormSectionOptionCanInsert){
-        if (formRow.sectionDescriptor.sectionInsertMode == XLFormSectionInsertModeButton){
-            return UITableViewRowAnimationAutomatic;
-        }
-        else if (formRow.sectionDescriptor.sectionInsertMode == XLFormSectionInsertModeLastRow){
-            return UITableViewRowAnimationRight;
-        }
+		if (formRow.sectionDescriptor.sectionInsertMode == XLFormSectionInsertModeLastRow){
+			return UITableViewRowAnimationRight;
+		}
+		else {
+			return UITableViewRowAnimationAutomatic;
+		}
     }
     return UITableViewRowAnimationFade;
 }
@@ -755,7 +755,12 @@
     XLFormRowDescriptor * row = [self.form formRowAtIndex:indexPath];
     XLFormSectionDescriptor * section = row.sectionDescriptor;
     if (section.sectionOptions & XLFormSectionOptionCanInsert){
-        if (section.formRows.count == indexPath.row + 2){
+		/*if (section.sectionInsertMode == XLFormSectionInsertModeSimple || section.sectionInsertMode == XLFormSectionInsertModeSimpleDelete){
+			// Simple and SimpleDelete insert mode style dictates no insert button should be displayed
+			return UITableViewCellEditingStyleNone;
+		}
+		else*/
+			if (section.formRows.count == indexPath.row + 2){
             if ([[XLFormViewController inlineRowDescriptorTypesForRowDescriptorTypes].allKeys containsObject:row.rowType]){
                 UITableViewCell<XLFormDescriptorCell> * cell = [row cellForFormController:self];
                 UIView * firstResponder = [cell findFirstResponder];
@@ -769,7 +774,7 @@
         }
     }
     if (section.sectionOptions & XLFormSectionOptionCanDelete){
-        return UITableViewCellEditingStyleDelete;
+		return UITableViewCellEditingStyleDelete;
     }
     return UITableViewCellEditingStyleNone;
 }
