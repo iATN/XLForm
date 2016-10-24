@@ -34,8 +34,10 @@ typedef NS_OPTIONS(NSUInteger, XLFormSectionOptions) {
 };
 
 typedef NS_ENUM(NSUInteger, XLFormSectionInsertMode) {
-    XLFormSectionInsertModeLastRow = 0,
-    XLFormSectionInsertModeButton = 2
+    XLFormSectionInsertModeLastRow      = 0,
+	XLFormSectionInsertModeSimple       = 1 << 0,
+    XLFormSectionInsertModeButton       = 1 << 1,
+	XLFormSectionInsertModeSimpleDelete = 1 << 2
 };
 
 @class XLFormDescriptor;
