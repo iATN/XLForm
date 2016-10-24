@@ -208,6 +208,10 @@
     
     if (self.maximumDate)
         datePicker.maximumDate = self.maximumDate;
+    
+    if (self.locale) {
+        datePicker.locale = self.locale;
+    }
 }
 
 #pragma mark - Properties
@@ -227,9 +231,7 @@
 - (void)datePickerValueChanged:(UIDatePicker *)sender
 {
     self.rowDescriptor.value = sender.date;
-    [self update];
-    [self setNeedsLayout];
-    
+    [self.formViewController updateFormRow:self.rowDescriptor];
 }
 
 -(void)setFormDatePickerMode:(XLFormDateDatePickerMode)formDatePickerMode
