@@ -318,6 +318,18 @@ CGFloat XLFormRowInitialHeight = -2;
             id newValue = [change objectForKey:NSKeyValueChangeNewKey];
             id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
             if ([keyPath isEqualToString:@"value"]){
+				
+				// If we're in Simple or SimpleDelete insertion mode, insert a new row if the field has been changed,
+				// and if this section doesn't already have a blank row.
+				if (self.sectionDescriptor.sectionOptions & XLFormSectionOptionCanInsert && (self.sectionDescriptor.sectionInsertMode == XLFormSectionInsertModeSimple || self.sectionDescriptor.sectionInsertMode == XLFormSectionInsertModeSimpleDelete)){
+					XLFormRowDescriptor * lastRowDescriptor = self.sectionDescriptor.formRows[self.sectionDescriptor.formRows.count-1];
+					if (lastRowDescriptor.value){
+						// last row is not blank, go ahead and insert a new blank row
+						//[self.sectionDescriptor.formDescriptor addFormRow:self.copy beforeRow:lastRowDescriptor];
+						[self.sectionDescriptor.formDescriptor addFormRow:self.copy afterRow:object];
+					}
+				}
+				
                 [self.sectionDescriptor.formDescriptor.delegate formRowDescriptorValueHasChanged:object oldValue:oldValue newValue:newValue];
                 if (self.onChangeBlock) {
                     self.onChangeBlock(oldValue, newValue, self);
